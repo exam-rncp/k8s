@@ -1,7 +1,7 @@
 global:
   environment: dev 
 
-registry: "783764588202.dkr.ecr.eu-central-1.amazonaws.com"
+registry: "f3lin"
 
 carts:
   name: carts
