@@ -119,7 +119,13 @@ ingress:
         - path: /
           serviceName: front-end
           servicePort: 80
-
+tls:
+  enabled: false
+  secretName: company-tls-secret
+  hosts:
+    - example.dev.company.com
+    - admin.dev.company.com
+    
 orders:
   name: orders
   replicaCount: 1
