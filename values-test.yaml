@@ -109,7 +109,7 @@ ingress:
     nlb.ingress.kubernetes.io/target-type: "ip"
     nlb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
     nlb.ingress.kubernetes.io/ssl-redirect: '443'
-    nlb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:eu-central-1:123456789:certificate/example-cert"
+    nlb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:eu-central-1:783764588202:certificate/bfbb2ea1-ead3-4dca-ad40-af0ffccfd4ee"
   paths:
     - path: /
       pathType: ImplementationSpecific
