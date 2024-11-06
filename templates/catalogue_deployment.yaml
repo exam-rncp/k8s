@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.catalogue.name }}
   labels:
     name: {{ .Values.catalogue.name }}
-  namespace: {{ .Values.global.environment }}
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.catalogue.replicaCount }}
   selector:
@@ -21,10 +21,11 @@ spec:
           command: ['sh', '-c', 'until nc -z -v -w10 {{ .Values.catalogue.name }}-db 3306; do sleep 5; done']
       containers:
         - name: {{ .Values.catalogue.name }}
-          image: "{{ .Values.registry }}/{{ .Values.catalogue.image.repository }}:{{ .Values.catalogue.image.tag }}"
+          image: "{{ .Values.catalogue.image.repository }}:{{ .Values.catalogue.image.tag }}"
           command: ["/app"]
           args:
             - -port={{ .Values.catalogue.service.targetPort }}
+            - -DSN=catalogue_user:default_password@tcp(catalogue-db.{{ .Release.Namespace }}.svc.cluster.local:3306)/socksdb
           resources:
             {{- toYaml .Values.catalogue.resources | nindent 12 }}
           ports:

@@ -4,9 +4,9 @@ metadata:
   name: {{ .Values.user.name }}
   annotations:
     prometheus.io/scrape: 'true'
+  namespace: {{ .Release.Namespace }}
   labels:
     name: {{ .Values.user.name }}
-  namespace: {{ .Values.global.environment }}
 spec:
   ports:
     - port: {{ .Values.user.service.port }}

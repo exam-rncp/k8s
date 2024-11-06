@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.userDb.name }}
+  namespace: {{ .Release.Namespace }} 
   labels:
     name: {{ .Values.userDb.name }}
-  namespace: {{ .Values.global.environment }}
 spec:
   replicas: {{ .Values.userDb.replicaCount }}
   selector:
@@ -16,25 +16,23 @@ spec:
         name: {{ .Values.userDb.name }}
     spec:
       containers:
-        - name: {{ .Values.userDb.name }}
-          image: "{{ .Values.registry }}/{{ .Values.userDb.image.repository }}:{{ .Values.userDb.image.tag }}"
-          resources:
-            {{- toYaml .Values.userDb.resources | nindent 12 }}
-          ports:
-            - name: mongo
-              containerPort: {{ .Values.userDb.service.targetPort }}
-          securityContext:
-            capabilities:
-              drop:
-                - all
-              add:
-                - CHOWN
-                - SETGID
-                - SETUID
-            readOnlyRootFilesystem: true
-          volumeMounts:
-            - mountPath: /tmp
-              name: tmp-volume
+      - name: {{ .Values.userDb.name }}
+        image: "{{ .Values.userDb.image.repository }}:{{ .Values.userDb.image.tag }}"
+        ports:
+          - name: mongo
+            containerPort: {{ .Values.userDb.service.targetPort }}
+        securityContext:
+          capabilities:
+            drop:
+              - all
+            add:
+              - CHOWN
+              - SETGID
+              - SETUID
+          readOnlyRootFilesystem: true
+        volumeMounts:
+          - mountPath: /tmp
+            name: tmp-volume
       volumes:
         - name: tmp-volume
           emptyDir:

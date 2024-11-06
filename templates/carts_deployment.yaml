@@ -2,9 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.carts.name }}
+  # annotations:
+  #   prometheus.io/scrape: 'true'
+  namespace: {{ .Release.Namespace }}
   labels:
     name: {{ .Values.carts.name }}
-  namespace: {{ .Values.global.environment }}
 spec:
   replicas: {{ .Values.carts.replicaCount }}
   selector:
@@ -31,6 +33,11 @@ spec:
       containers:
         - name: {{ .Values.carts.name }}
           image: "{{ .Values.carts.image.repository }}:{{ .Values.carts.image.tag }}"
+          # command:
+          #   - /usr/local/bin/java.sh
+          #   - -jar
+          #   - ./app.jar
+          #   - --port={{ .Values.carts.service.targetPort }}
           env:
             - name: JAVA_OPTS
               value: {{ .Values.carts.env.javaOpts }}
@@ -47,6 +54,18 @@ spec:
               add:
                 - NET_BIND_SERVICE
             readOnlyRootFilesystem: true
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.carts.service.targetPort }}
+            initialDelaySeconds: 300
+            periodSeconds: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.carts.service.targetPort }}
+            initialDelaySeconds: 180
+            periodSeconds: 3
           volumeMounts:
             - mountPath: /tmp
               name: tmp-volume

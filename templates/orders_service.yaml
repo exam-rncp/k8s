@@ -6,10 +6,11 @@ metadata:
     prometheus.io/scrape: 'true'
   labels:
     name: {{ .Values.orders.name }}
-  namespace: {{ .Values.global.environment }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - port: {{ .Values.orders.service.port }}
       targetPort: {{ .Values.orders.service.targetPort }}
+      protocol: TCP
   selector:
     name: {{ .Values.orders.name }}

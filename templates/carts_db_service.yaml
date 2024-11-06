@@ -2,9 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.cartsDb.name }}
+  annotations:
+    prometheus.io/scrape: 'true'
   labels:
     name: {{ .Values.cartsDb.name }}
-  namespace: {{ .Values.global.environment }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - port: {{ .Values.cartsDb.service.port }}

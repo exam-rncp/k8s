@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.user.name }}
+  namespace: {{ .Release.Namespace }}
   labels:
     name: {{ .Values.user.name }}
-  namespace: {{ .Values.global.environment }}
 spec:
   replicas: {{ .Values.user.replicaCount }}
   selector:
@@ -30,13 +30,13 @@ spec:
               echo "MongoDB is available!"
       containers:
         - name: {{ .Values.user.name }}
-          image: "{{ .Values.registry }}/{{ .Values.user.image.repository }}:{{ .Values.user.image.tag }}"
+          image: "{{ .Values.user.image.repository }}:{{ .Values.user.image.tag }}"
           resources:
             {{- toYaml .Values.user.resources | nindent 12 }}
           ports:
             - containerPort: {{ .Values.user.service.targetPort }}
           env:
-            - name: mongo
+            - name: MONGO_HOST
               value: {{ .Values.user.env.mongo }}
           securityContext:
             runAsNonRoot: true

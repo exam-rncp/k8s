@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.catalogueDb.name }}
+  namespace: {{ .Release.Namespace }}
   labels:
     name: {{ .Values.catalogueDb.name }}
-  namespace: {{ .Values.global.environment }}
 spec:
   replicas: {{ .Values.catalogueDb.replicaCount }}
   selector:
@@ -13,20 +13,29 @@ spec:
   template:
     metadata:
       labels:
+        app: sock-shop
         name: {{ .Values.catalogueDb.name }}
     spec:
       containers:
         - name: {{ .Values.catalogueDb.name }}
-          image: "{{ .Values.registry }}/{{ .Values.catalogueDb.image.repository }}:{{ .Values.catalogueDb.image.tag }}"
+          image: "{{ .Values.catalogueDb.image.repository }}:{{ .Values.catalogueDb.image.tag }}"
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: {{ .Values.catalogueDb.env.mysqlRootPassword }}
             - name: MYSQL_DATABASE
               value: {{ .Values.catalogueDb.env.mysqlDatabase }}
-          resources:
-            {{- toYaml .Values.catalogueDb.resources | nindent 12 }}
           ports:
             - name: mysql
               containerPort: {{ .Values.catalogueDb.service.targetPort }}
+      #     securityContext:
+      #       runAsNonRoot: true
+      #       runAsUser: 1001
+      #       readOnlyRootFilesystem: true
+      #     volumeMounts:
+      #       - mountPath: /var/lib/mysql
+      #         name: mysql-data
+      # volumes:
+      #   - name: mysql-data
+      #     emptyDir: {}
       nodeSelector:
         {{- toYaml .Values.nodeSelector | nindent 8 }}

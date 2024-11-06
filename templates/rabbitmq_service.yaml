@@ -7,7 +7,7 @@ metadata:
     prometheus.io/port: '{{ .Values.rabbitmq.service.ports.exporter }}'
   labels:
     name: {{ .Values.rabbitmq.name }}
-  namespace: {{ .Values.global.environment }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - port: {{ .Values.rabbitmq.service.ports.rabbitmq }}

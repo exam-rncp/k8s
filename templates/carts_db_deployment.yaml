@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.cartsDb.name }}
   labels:
     name: {{ .Values.cartsDb.name }}
-  namespace: {{ .Values.global.environment }}
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.cartsDb.replicaCount }}
   selector:
@@ -30,6 +30,16 @@ spec:
                 - SETGID
                 - SETUID
             readOnlyRootFilesystem: true
+          livenessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            tcpSocket:
+              port: 27017
+            initialDelaySeconds: 5
+            periodSeconds: 10
           volumeMounts:
             - mountPath: /tmp
               name: tmp-volume

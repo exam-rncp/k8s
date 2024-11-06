@@ -3,13 +3,15 @@ kind: Service
 metadata:
   name: {{ .Values.queueMaster.name }}
   annotations:
+    prometheus.io/path: "/prometheus"
     prometheus.io/scrape: 'true'
   labels:
     name: {{ .Values.queueMaster.name }}
-  namespace: {{ .Values.global.environment }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - port: {{ .Values.queueMaster.service.port }}
       targetPort: {{ .Values.queueMaster.service.targetPort }}
+      protocol: TCP
   selector:
     name: {{ .Values.queueMaster.name }}

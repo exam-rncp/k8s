@@ -5,12 +5,13 @@ metadata:
   name: {{ .Values.catalogue.name }}
   annotations:
     prometheus.io/scrape: 'true'
+  namespace: {{ .Release.Namespace }}
   labels:
     name: {{ .Values.catalogue.name }}
-  namespace: {{ .Values.global.environment }}
 spec:
   ports:
     - port: {{ .Values.catalogue.service.port }}
       targetPort: {{ .Values.catalogue.service.targetPort }}
+      protocol: TCP
   selector:
     name: {{ .Values.catalogue.name }}

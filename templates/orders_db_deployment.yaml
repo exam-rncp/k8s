@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.ordersDb.name }}
+  namespace: {{ .Release.Namespace }}
   labels:
     name: {{ .Values.ordersDb.name }}
-  namespace: {{ .Values.global.environment }}
 spec:
   replicas: {{ .Values.ordersDb.replicaCount }}
   selector:
@@ -17,9 +17,7 @@ spec:
     spec:
       containers:
         - name: {{ .Values.ordersDb.name }}
-          image: "{{ .Values.registry }}/{{ .Values.ordersDb.image.repository }}:{{ .Values.ordersDb.image.tag }}"
-          resources:
-            {{- toYaml .Values.ordersDb.resources | nindent 12 }}
+          image: "{{ .Values.ordersDb.image.repository }}:{{ .Values.ordersDb.image.tag }}"
           ports:
             - name: mongo
               containerPort: {{ .Values.ordersDb.service.targetPort }}

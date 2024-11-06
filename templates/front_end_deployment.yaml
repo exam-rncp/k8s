@@ -2,7 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.frontEnd.name }}
-  namespace: {{ .Values.global.environment }}
+  labels:
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.frontEnd.replicaCount }}
   selector:
@@ -30,7 +31,7 @@ spec:
               echo "catalogue service is available!"
       containers:
         - name: {{ .Values.frontEnd.name }}
-          image: "{{ .Values.registry }}/{{ .Values.frontEnd.image.repository }}:{{ .Values.frontEnd.image.tag }}"
+          image: "{{ .Values.frontEnd.image.repository }}:{{ .Values.frontEnd.image.tag }}"
           resources:
             {{- toYaml .Values.frontEnd.resources | nindent 12 }}
           ports:

@@ -2,9 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.sessionDb.name }}
+  namespace: {{ .Release.Namespace }}
   labels:
     name: {{ .Values.sessionDb.name }}
-  namespace: {{ .Values.global.environment }}
 spec:
   replicas: {{ .Values.sessionDb.replicaCount }}
   selector:
@@ -32,5 +32,15 @@ spec:
                 - SETGID
                 - SETUID
             readOnlyRootFilesystem: true
+            livenessProbe:
+              tcpSocket:
+                port: 6379
+              initialDelaySeconds: 30
+              periodSeconds: 30
+            readinessProbe:
+              tcpSocket:
+                port: 6379
+              initialDelaySeconds: 20
+              periodSeconds: 30
       nodeSelector:
         {{- toYaml .Values.nodeSelector | nindent 8 }}

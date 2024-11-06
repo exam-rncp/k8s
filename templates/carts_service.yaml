@@ -4,12 +4,13 @@ metadata:
   name: {{ .Values.carts.name }}
   annotations:
     prometheus.io/scrape: 'true'
+  namespace: {{ .Release.Namespace }}
   labels:
     name: {{ .Values.carts.name }}
-  namespace: {{ .Values.global.environment }}
 spec:
   ports:
     - port: {{ .Values.carts.service.port }}
       targetPort: {{ .Values.carts.service.targetPort }}
+      protocol: TCP
   selector:
     name: {{ .Values.carts.name }}

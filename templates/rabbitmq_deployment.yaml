@@ -4,7 +4,7 @@ metadata:
   name: {{ .Values.rabbitmq.name }}
   labels:
     name: {{ .Values.rabbitmq.name }}
-  namespace: {{ .Values.global.environment }}
+  namespace: {{ .Release.Namespace }}
 spec:
   replicas: {{ .Values.rabbitmq.replicaCount }}
   selector:
@@ -18,27 +18,27 @@ spec:
         prometheus.io/scrape: "false"
     spec:
       containers:
-        - name: {{ .Values.rabbitmq.name }}
-          image: "{{ .Values.rabbitmq.image.repository }}:{{ .Values.rabbitmq.image.tag }}"
-          ports:
-            - containerPort: {{ .Values.rabbitmq.ports.management }}
-              name: management
-            - containerPort: {{ .Values.rabbitmq.ports.rabbitmq }}
-              name: rabbitmq
-          securityContext:
-            capabilities:
-              drop:
-                - all
-              add:
-                - CHOWN
-                - SETGID
-                - SETUID
-                - DAC_OVERRIDE
-            readOnlyRootFilesystem: true
-        - name: rabbitmq-exporter
-          image: "{{ .Values.rabbitmq.exporter.image.repository }}:{{ .Values.rabbitmq.exporter.image.tag }}"
-          ports:
-            - containerPort: {{ .Values.rabbitmq.exporter.port }}
-              name: exporter
+      - name: {{ .Values.rabbitmq.name }}
+        image: "{{ .Values.rabbitmq.image.repository }}:{{ .Values.rabbitmq.image.tag }}"
+        ports:
+          - containerPort: {{ .Values.rabbitmq.ports.management }}
+            name: management
+          - containerPort: {{ .Values.rabbitmq.ports.rabbitmq }}
+            name: rabbitmq
+        securityContext:
+          capabilities:
+            drop:
+              - all
+            add:
+              - CHOWN
+              - SETGID
+              - SETUID
+              - DAC_OVERRIDE
+          readOnlyRootFilesystem: true
+      - name: rabbitmq-exporter
+        image: "{{ .Values.rabbitmq.exporter.image.repository }}:{{ .Values.rabbitmq.exporter.image.tag }}"
+        ports:
+          - containerPort: {{ .Values.rabbitmq.exporter.port }}
+            name: exporter
       nodeSelector:
         {{- toYaml .Values.nodeSelector | nindent 8 }}

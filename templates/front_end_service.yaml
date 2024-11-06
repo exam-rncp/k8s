@@ -7,10 +7,11 @@ metadata:
     prometheus.io/scrape: 'true'
   labels:
     name: {{ .Values.frontEnd.name }}
-  namespace: {{ .Values.global.environment }}
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
     - port: {{ .Values.frontEnd.service.port }}
       targetPort: {{ .Values.frontEnd.service.targetPort }}
+      protocol: TCP
   selector:
     name: {{ .Values.frontEnd.name }}
