@@ -11,6 +11,5 @@ spec:
   ports:
     - port: {{ .Values.payment.service.port }}
       targetPort: {{ .Values.payment.service.targetPort }}
-      protocol: TCP	
   selector:
     name: {{ .Values.payment.name }}

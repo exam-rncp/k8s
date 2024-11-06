@@ -12,6 +12,5 @@ spec:
   ports:
     - port: {{ .Values.catalogue.service.port }}
       targetPort: {{ .Values.catalogue.service.targetPort }}
-      protocol: TCP
   selector:
     name: {{ .Values.catalogue.name }}
