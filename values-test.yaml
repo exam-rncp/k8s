@@ -248,7 +248,7 @@ user:
   name: user
   replicaCount: 1
   image:
-    repository: 783764588202.dkr.ecr.eu-central-1.amazonaws.com/user
+    repository: weaveworksdemos/user
     tag: 0.4.7
     # repository: 783764588202.dkr.ecr.eu-central-1.amazonaws.com/user
     # tag: v0.1.4
