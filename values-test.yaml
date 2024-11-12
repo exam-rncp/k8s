@@ -68,7 +68,7 @@ catalogueDb:
 
 frontEnd:
   name: front-end
-  replicaCount: 1
+  replicaCount: 2
   image:
     repository: weaveworksdemos/front-end
     tag: 0.3.12
