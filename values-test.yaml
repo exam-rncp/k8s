@@ -249,7 +249,9 @@ user:
   replicaCount: 1
   image:
     repository: 783764588202.dkr.ecr.eu-central-1.amazonaws.com/user
-    tag: v0.1.4
+    tag: 0.4.7
+    # repository: 783764588202.dkr.ecr.eu-central-1.amazonaws.com/user
+    # tag: v0.1.4
   resources:
     limits:
       cpu: 500m
@@ -259,7 +261,7 @@ user:
       memory: 512Mi
   service:
     port: 80
-    targetPort: 8080
+    targetPort: 80
   env:
     mongo: user-db:27017
   probe:
@@ -275,8 +277,10 @@ userDb:
   name: user-db
   replicaCount: 1
   image:
-    repository: 783764588202.dkr.ecr.eu-central-1.amazonaws.com/user-db
-    tag:  v0.1.4
+    repository: weaveworksdemos/user-db
+    tag:  0.4.0
+    # repository: 783764588202.dkr.ecr.eu-central-1.amazonaws.com/user-db
+    # tag:  v0.1.4
   service:
     port: 27017
     targetPort: 27017
