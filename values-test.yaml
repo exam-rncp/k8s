@@ -208,15 +208,15 @@ rabbitmq:
       rabbitmq: 5672
       exporter: 9090
 
-sessionDb:
-  name: session-db
-  replicaCount: 1
-  image:
-    repository: redis
-    tag: alpine
-  service:
-    port: 6379
-    targetPort: 6379
+# sessionDb:
+#   name: session-db
+#   replicaCount: 1
+#   image:
+#     repository: redis
+#     tag: alpine
+#   service:
+#     port: 6379
+#     targetPort: 6379
 
 payment:
   name: payment
