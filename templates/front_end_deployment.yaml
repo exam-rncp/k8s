@@ -36,9 +36,9 @@ spec:
             {{- toYaml .Values.frontEnd.resources | nindent 12 }}
           ports:
             - containerPort: {{ .Values.frontEnd.service.targetPort }}
-          env:
-            - name: SESSION_REDIS
-              value: {{ .Values.frontEnd.env.sessionRedis | quote }}
+          # env:
+          #   - name: SESSION_REDIS
+          #     value: {{ .Values.frontEnd.env.sessionRedis | quote }}
           securityContext:
             runAsNonRoot: true
             runAsUser: 10001
