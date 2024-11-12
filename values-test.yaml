@@ -22,7 +22,7 @@ cartsDb:
   replicaCount: 1
   image:
     repository: mongo
-    tag: mongo:3.4
+    tag: 3.4
   service:
     port: 27017
     targetPort: 27017
