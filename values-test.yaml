@@ -57,8 +57,8 @@ catalogueDb:
   name: catalogue-db
   replicaCount: 1
   image:
-    repository: weaveworksdemos/carts
-    tag: 0.4.8
+    repository: weaveworksdemos/catalogue-db
+    tag: 0.3.0
   env:
     mysqlRootPassword: default_password
     mysqlDatabase: socksdb
